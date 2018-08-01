@@ -19,46 +19,32 @@ class TodoController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return TodoResource
      */
     public function store(Request $request)
     {
-        //
+        $todo = new Todo();
+        $todo->title = $request->input('title');
+        $todo->status = $request->input('status');
+
+        if ($todo->save()) {
+            return new TodoResource($todo);
+        }
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return TodoResource
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $todo = Todo::findOrFail($id);
+        return new TodoResource($todo);
     }
 
     /**
@@ -66,21 +52,31 @@ class TodoController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return TodoResource
      */
     public function update(Request $request, $id)
     {
-        //
+        $todo = Todo::findOrFail($id);
+        $todo->title = $request->input('title');
+        $todo->status = $request->input('status');
+
+        if ($todo->save()) {
+            return new TodoResource($todo);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return TodoResource
      */
     public function destroy($id)
     {
-        //
+        $todo = Todo::findOrFail($id);
+
+        if ($todo->delete()) {
+            return new TodoResource($todo);
+        }
     }
 }
