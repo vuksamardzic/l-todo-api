@@ -20,4 +20,12 @@ class TodoResource extends JsonResource
             'status' => $this->status
         ];
     }
+
+    public function with($request)
+    {
+        return [
+            'author_url' => url('https://github.com/vuksamardzic'),
+            'version' => '1.0.0',
+        ];
+    }
 }
